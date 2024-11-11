@@ -2,7 +2,7 @@ version: 0.2
 phases:
     build:
         commands:
-            - echo "Building the static website..."
+            - echo "Building the static website....."
 artifacts:
     files:
         - '**/*'
