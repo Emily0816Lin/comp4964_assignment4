@@ -9,8 +9,6 @@ phases:
             - html-validator --file=index.html --verbose  # Validate HTML
             - echo "Running CSS linting..."
             - stylelint "style.css"  # Lint CSS
-            - echo "Running Lighthouse audit..."
-            - lighthouse index.html --quiet --output=json --output-path=./lighthouse-report.json --chrome-flags="--headless"
 artifacts:
     files:
         - '**/*'
