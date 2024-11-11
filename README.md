@@ -20,7 +20,7 @@ This CI/CD pipeline consists of the following components:
 - **Amazon S3**: Hosts the static website with public access and serves it as a static website.
 
 ### Architecture Diagram
-![Pipeline Architecture](docs/pipeline_architecture.png)  <!-- Make sure to add the image in the docs folder -->
+![Pipeline Architecture](architechture.png)
 
 ## Setup Steps
 
@@ -69,7 +69,32 @@ This CI/CD pipeline consists of the following components:
    - Select **AWS CodeBuild** and create a new build project.
    - Choose a managed environment (e.g., Amazon Linux).
    - Set up the project to use the `buildspec.yml` file in your repository.
-4. **Deploy Stage**:
+
+
+4. **Test Stage**:
+   - Create another **AWS CodeBuild** project specifically for testing.
+   - Use the following build commands in the **Test stage** to perform HTML validation:
+   ```yaml
+   version: 0.2
+
+   phases:
+   install:
+      commands:
+         - echo "Installing dependencies for testing..."
+         - npm install -g html-validator-cli  # Install HTML validator
+   pre_build:
+      commands:
+         - echo "Preparing for tests..."
+   build:
+      commands:
+         - echo "Running HTML validation..."
+         - html-validator --file=index.html --verbose  # Validate HTML file
+   artifacts:
+   files:
+      - '**/*'
+   ```
+   
+5. **Deploy Stage**:
    - Select **Amazon S3** as the deploy provider.
    - Choose your S3 bucket as the deployment destination.
    - Enable **Extract file before deploy** to ensure files are unzipped in S3.
@@ -104,6 +129,10 @@ This CI/CD pipeline consists of the following components:
 2. **Build Failures**:
    - Check **CodeBuild** logs for errors in `buildspec.yml`.
    - Ensure the commands are correct and files are specified properly in the artifacts section.
+
+3. **Test Failures**:
+   - Review the **CodeBuild** logs for errors in the HTML validation step during the Test stage.
+   - Ensure the `html-validator-cli` command is correct and the `index.html` file exists.
 
 3. **Files Not Extracted in S3**:
    - Make sure "Extract file before deploy" is enabled in the deploy stage of CodePipeline.
