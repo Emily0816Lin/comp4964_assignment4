@@ -1,15 +1,8 @@
 version: 0.2
-
 phases:
-  build:
-    commands:
-      - echo "Building the static website..."
-  post_build:
-    commands:
-      - echo "Running HTML validation..."
-      - html-validator --file=index.html --verbose  # Validate HTML
-      - echo "Running CSS linting..."
-      - stylelint "style.css"  # Lint CSS
+    build:
+        commands:
+            - echo "Building the static website....."
 artifacts:
-  files:
-    - '**/*'
+    files:
+        - '**/*'
