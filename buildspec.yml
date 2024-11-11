@@ -1,14 +1,19 @@
 version: 0.2
+
 phases:
-    build:
-        commands:
-            - echo "Building the static website....."
-    post_build:
-        commands:
-        - echo "Running HTML validation..."
-        - html-validator --file=index.html --verbose  # Validate HTML
-        - echo "Running CSS linting..."
-        - stylelint "style.css"  # Lint CSS
+  install:
+    commands:
+      - echo "Installing dependencies..."
+      - npm install -g html-validator-cli stylelint  # Install testing tools
+  build:
+    commands:
+      - echo "Building the static website..."
+  post_build:
+    commands:
+      - echo "Running HTML validation..."
+      - html-validator --file=index.html --verbose  # Validate HTML
+      - echo "Running CSS linting..."
+      - stylelint "style.css"  # Lint CSS
 artifacts:
-    files:
-        - '**/*'
+  files:
+    - '**/*'
